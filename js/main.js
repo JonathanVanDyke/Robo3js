@@ -64,7 +64,44 @@ scene.add(player); //DROP ELEMENT INTO VIRTUAL ENVIRONMENT
 camera.position.set(0, 2, 5);
 player.add(camera)
 
+//Try to load a shark they said
+// let loader = new THREE.GLTFLoader();
 
+// loader.load( './assets/low_poly_shark/scene.gltf', function ( gltf ) {
+//   scene.add( scene.gltf );
+// }, undefined, function (error) {
+//   console.log( error );
+// })
+
+// var loader = new THREE.GLTFLoader();
+// loader.load('./assets/low_poly_shark/scene.gltf', function (gltf) {
+//   scene.add( gltf.scene )
+// });
+
+var loader = new THREE.OBJLoader();
+// load a resource
+loader.load(
+  // resource URL
+  'assets/mech.obj',
+  // called when resource is loaded
+  function (object) {
+    
+    scene.add(object);
+
+  },
+  // called when loading is in progresses
+  function (xhr) {
+
+    console.log((xhr.loaded / xhr.total * 100) + '% loaded');
+
+  },
+  // called when loading has errors
+  function (error) {
+
+    console.log('An error happened');
+
+  }
+);
 
 
 // 08
