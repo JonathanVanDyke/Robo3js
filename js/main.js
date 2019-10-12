@@ -54,7 +54,7 @@ let mouse = new THREE.Vector2();
 
 // 07
 //ELEMENT ONE (**LOOK UP MATERIAL OPTIONS**)
-let playerGeometry = new THREE.CubeGeometry(1, 1, 1, 0); //PRIMITIVE SHAPE AND SIZE
+let playerGeometry = new THREE.CubeGeometry(1, 1, 1, 100); //PRIMITIVE SHAPE AND SIZE (set 3rd val to 111 for cat paw)
 let playerMaterial = new THREE.MeshLambertMaterial({ color: 0x22CAC2 }); //COLOR OF MESH
 // let player = new THREE.Mesh(playerGeometry, playerMaterial); //MESH POINTS MAT TO GEOMETRY
 let player = new Physijs.BoxMesh(playerGeometry, playerMaterial); //MESH POINTS MAT TO GEOMETRY
