@@ -1,5 +1,16 @@
 function Environment() {
 
+  //GROUND
+  let groundGeometry = new THREE.PlaneGeometry(7000, 3000, 0); //PRIMITIVE SHAPE AND SIZE
+  let groundMaterial = new THREE.MeshBasicMaterial({ color: 0xa6e4e0 }); //COLOR OF MESH
+  // let ground = new THREE.Mesh(groundGeometry, groundMaterial); //MESH POINTS MAT TO GEOMETRY
+  let ground = new Physijs.PlaneMesh(groundGeometry, groundMaterial); //MESH POINTS MAT TO GEOMETRY
+  ground.rotation.x = -0.5 * Math.PI;
+  ground.name = 'ground'
+  scene.add(ground); //DROP ELEMENT INTO VIRTUAL ENVIRONMENT
+
+
+
   // 07c
   // ELEMENT ONE (**LOOK UP MATERIAL OPTIONS**)
   for (let i = 0; i < 100; i++) {

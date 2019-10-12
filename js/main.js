@@ -48,15 +48,6 @@ let raycaster = new THREE.Raycaster();
 let mouse = new THREE.Vector2();
 
 
-//GROUND
-let groundGeometry = new THREE.PlaneGeometry(7000, 3000, 0); //PRIMITIVE SHAPE AND SIZE
-let groundMaterial = new THREE.MeshBasicMaterial({ color: 0x22CAC2 }); //COLOR OF MESH
-// let ground = new THREE.Mesh(groundGeometry, groundMaterial); //MESH POINTS MAT TO GEOMETRY
-let ground = new Physijs.PlaneMesh(groundGeometry, groundMaterial); //MESH POINTS MAT TO GEOMETRY
-ground.rotation.x = -0.5 * Math.PI;
-ground.name = 'ground'
-scene.add(ground); //DROP ELEMENT INTO VIRTUAL ENVIRONMENT
-
 
 
 
@@ -107,7 +98,7 @@ let animate = function (timeStamp) {
   
   player.setAngularFactor(_vector);
   player.setAngularVelocity(_vector);
-  player.setLinearVelocity(new THREE.Vector3(0, 0, 0));
+  // player.setLinearVelocity(new THREE.Vector3(0, 0, 0));
 
   let delta = clock.getDelta(); // seconds
   let moveDistance = 200 * delta; // 200 pixels per second
@@ -134,15 +125,21 @@ let animate = function (timeStamp) {
   if (input.isLeftPressed) {
     player.__dirtyPosition = true;
     player.__dirtyRotation = true;
-    player.position.x -= Math.sin(player.rotation.y + Math.PI / 2) * playerSpeed;
-    player.position.z -= Math.cos(player.rotation.y + Math.PI / 2) * playerSpeed;
+
+    player.translateOnAxis(new THREE.Vector3(playerSpeed * 100, 0, 0), -rotateAngle)
+
+    // player.position.x -= Math.sin(player.rotation.y + Math.PI / 2) * playerSpeed;
+    // player.position.z -= Math.cos(player.rotation.y + Math.PI / 2) * playerSpeed;
   }
   //RIGHT
   if (input.isRightPressed) {
     player.__dirtyPosition = true;
     player.__dirtyRotation = true;
-    player.position.x += Math.sin(player.rotation.y + Math.PI / 2) * playerSpeed;
-    player.position.z += Math.cos(player.rotation.y + Math.PI / 2) * playerSpeed;
+
+    player.translateOnAxis(new THREE.Vector3(-playerSpeed * 100, 0, 0), -rotateAngle)
+
+    // player.position.x += Math.sin(player.rotation.y + Math.PI / 2) * playerSpeed;
+    // player.position.z += Math.cos(player.rotation.y + Math.PI / 2) * playerSpeed;
   }
   //JUMP  
   if (input.isSpacePressed) {
@@ -193,12 +190,12 @@ let animate = function (timeStamp) {
   
 
 
-  //GRAVITY...fix this please
-  if (player.position.y <= 1) {
-    player.translateOnAxis(new THREE.Vector3(0, 0, 0), -rotateAngle)
-  } else {
-    player.translateOnAxis(new THREE.Vector3(0, playerSpeed * 50, 0), -rotateAngle)
-  }
+  // //GRAVITY...fix this please
+  // if (player.position.y <= 1) {
+  //   player.translateOnAxis(new THREE.Vector3(0, 0, 0), -rotateAngle)
+  // } else {
+  //   player.translateOnAxis(new THREE.Vector3(0, playerSpeed * 50, 0), -rotateAngle)
+  // }
   // camera.lookAt(player.position)
   scene.simulate();
   renderer.render(scene, camera);
