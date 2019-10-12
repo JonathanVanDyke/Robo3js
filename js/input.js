@@ -7,6 +7,8 @@ function Input() {
   self.isFwdPressed = false;
   self.isBwdPressed = false;
   self.isShiftPressed = false;
+  self.isRLPressed = false;
+  self.isRRPressed = false;
   //how do we add gravity?
   self.isSpacePressed = false;
 
@@ -29,6 +31,12 @@ function Input() {
     }
     if(e.keyCode === 16) {
       self.isShiftPressed = isKeyDown;
+    }
+    if(e.keyCode === 81) {
+      self.isRLPressed = isKeyDown;
+    }
+    if(e.keyCode === 69) {
+      self.isRRPressed = isKeyDown;
     }
   }
 

@@ -4,11 +4,16 @@ let scene = new THREE.Scene();
 let camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
 
 // camera.position.z = 5;
-camera.position.set(0, 2, 5);
+// camera.position.set(0, 2, 5);
+
 
 // 101
 //INPUT OBJECT
 let input = new Input();
+
+// 001
+// Environment
+let environment = new Environment();
 
 // 03
 //INSTANCE OF RENDERER
@@ -36,10 +41,22 @@ let mouse = new THREE.Vector2();
 
 // 07
 //ELEMENT ONE (**LOOK UP MATERIAL OPTIONS**)
-let geometry = new THREE.BoxGeometry(1, 1, 1); //PRIMITIVE SHAPE AND SIZE
-let material = new THREE.MeshLambertMaterial({ color: 0x22CAC2 }); //COLOR OF MESH
-let cube = new THREE.Mesh(geometry, material); //MESH POINTS MAT TO GEOMETRY
-scene.add(cube); //DROP ELEMENT INTO VIRTUAL ENVIRONMENT
+let playerGeometry = new THREE.BoxGeometry(1, 1, 1); //PRIMITIVE SHAPE AND SIZE
+let playerMaterial = new THREE.MeshLambertMaterial({ color: 0x22CAC2 }); //COLOR OF MESH
+let player = new THREE.Mesh(playerGeometry, playerMaterial); //MESH POINTS MAT TO GEOMETRY
+scene.add(player); //DROP ELEMENT INTO VIRTUAL ENVIRONMENT
+camera.position.set(0, 2, 5);
+player.add(camera)
+
+// 07b
+//ELEMENT ONE (**LOOK UP MATERIAL OPTIONS**)
+let envBlockGeometry = new THREE.BoxGeometry(1, 1, 1); //PRIMITIVE SHAPE AND SIZE
+let envBlockMaterial = new THREE.MeshLambertMaterial({ color: 0x22CAC2 }); //COLOR OF MESH
+let envBlock = new THREE.Mesh(envBlockGeometry, envBlockMaterial); //MESH POINTS MAT TO GEOMETRY
+envBlock.position.x = -2;
+scene.add(envBlock); //DROP ELEMENT INTO VIRTUAL ENVIRONMENT
+
+
 
 // 08
 //LIGHT ONE
@@ -66,38 +83,64 @@ let animate = function (timeStamp) {
 
   let movementSpeed = 12 * timeDelta;
 
+
   //BOOST
   let boost = 1;
   if (input.isShiftPressed) {
     boost = 15 * movementSpeed;
   }
+
+  let playerSpeed = movementSpeed * boost * 2;
+  
   //LEFT
   if (input.isLeftPressed) {
-    cube.position.x += -movementSpeed * boost;
+    // player.position.x -= playerSpeed;    
+    player.position.x -= Math.sin(player.rotation.y + Math.PI / 2) * playerSpeed;
+    player.position.z -= Math.cos(player.rotation.y + Math.PI / 2) * playerSpeed;
   }
   //RIGHT
   if (input.isRightPressed) {
-    cube.position.x += movementSpeed * boost;
+    // player.position.x += playerSpeed;
+    player.position.x += Math.sin(player.rotation.y + Math.PI / 2) * playerSpeed;
+    player.position.z += Math.cos(player.rotation.y + Math.PI / 2) * playerSpeed;
+
+
   }
   //JUMP  
   if (input.isSpacePressed) {
-    cube.position.y += movementSpeed * boost;
+    player.position.y += playerSpeed*2;
   }
   //FWD 
   if (input.isFwdPressed) {
-    cube.position.z -= movementSpeed * boost;
+    // player.position.z -= (playerSpeed);
+    player.position.x -= Math.sin(player.rotation.y) * playerSpeed;
+    player.position.z -= Math.cos(player.rotation.y) * playerSpeed;
   }
   //BACK 
   if (input.isBwdPressed) {
-    cube.position.z += movementSpeed * boost;
+    player.position.x += Math.sin(player.rotation.y) * playerSpeed;
+    player.position.z += Math.cos(player.rotation.y) * playerSpeed;
   }
+  //RotLeft
+  if (input.isRLPressed) {
+    player.rotation.y += playerSpeed;
 
+    // camera.position.x += Math.sin(player.rotation.y + Math.PI / 2) * playerSpeed;
+    // camera.position.z += -Math.cos(player.rotation.y + Math.PI / 2) * playerSpeed;
+  }
+  //RotRight
+  if (input.isRRPressed) {
+    player.rotation.y -= playerSpeed;
+
+    // camera.position.x += Math.sin(player.rotation.y - Math.PI / 2) * playerSpeed;
+    // camera.position.z += -Math.cos(player.rotation.y - Math.PI / 2) * playerSpeed;
+  }
 
   //GRAVITY...fix this please
-  if (cube.position.y >= 0) {
-    cube.position.y -= 0.1 * boost;
+  if (player.position.y >= 0) {
+    player.position.y -= 0.2 * boost;
   }
-
+  // camera.lookAt(player.position)
   renderer.render(scene, camera);
 };
 
