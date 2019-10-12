@@ -14,12 +14,12 @@ function Input() {
 
   //Handle key events (setting value according to event listener)
   const handleKeyEvent = (e, isKeyDown) => {
-    if(e.keyCode === 65) {
+    if(e.keyCode === 81) {
       self.isLeftPressed = isKeyDown;
-    }
-    if(e.keyCode === 68) {
+    } 
+    if(e.keyCode === 69) {
       self.isRightPressed = isKeyDown;
-    }
+    } 
     if(e.keyCode === 32) {
       self.isSpacePressed = isKeyDown;
     }
@@ -32,10 +32,10 @@ function Input() {
     if(e.keyCode === 16) {
       self.isShiftPressed = isKeyDown;
     }
-    if(e.keyCode === 81) {
+    if (e.keyCode === 65) {
       self.isRLPressed = isKeyDown;
     }
-    if(e.keyCode === 69) {
+    if(e.keyCode === 68) {
       self.isRRPressed = isKeyDown;
     }
   }

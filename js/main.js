@@ -1,3 +1,8 @@
+// 201 
+Physijs.scripts.worker = '/js/physijs_worker.js';
+Physijs.scripts.ammo = '/js/ammo.js';
+
+
 // 02
 //RENDERER INPUT, SCENE (virtual environment)/CAMERA 
 let scene = new THREE.Scene();
