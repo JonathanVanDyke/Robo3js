@@ -48,26 +48,22 @@ scene.add(player); //DROP ELEMENT INTO VIRTUAL ENVIRONMENT
 camera.position.set(0, 2, 5);
 player.add(camera)
 
-// 07b
-//ELEMENT ONE (**LOOK UP MATERIAL OPTIONS**)
-let envBlockGeometry = new THREE.BoxGeometry(1, 1, 1); //PRIMITIVE SHAPE AND SIZE
-let envBlockMaterial = new THREE.MeshLambertMaterial({ color: 0x22CAC2 }); //COLOR OF MESH
-let envBlock = new THREE.Mesh(envBlockGeometry, envBlockMaterial); //MESH POINTS MAT TO GEOMETRY
-envBlock.position.x = -2;
-scene.add(envBlock); //DROP ELEMENT INTO VIRTUAL ENVIRONMENT
-
-
 
 // 08
 //LIGHT ONE
-let light1 = new THREE.PointLight(0xFFFFFF, 1, 1000);
-light1.position.set(0, 0, 0)
+let light1 = new THREE.PointLight(0xFFFFFF, 2, 100);
+light1.position.set(0, 0, 25)
 scene.add(light1)
 
 //LIGHT TWO
-let light2 = new THREE.PointLight(0xFFFFFF, 2, 1000);
+let light2 = new THREE.AmbientLight(0xFFFFFF, .25, 2);
 light2.position.set(0, 0, 25)
 scene.add(light2)
+
+//LIGHT PLAYER
+let light3 = new THREE.PointLight(0xFFFFFF, 2, 2);
+light3.position.set(0, 0, 25)
+player.add(light3)
 
 
 // 09
@@ -94,17 +90,13 @@ let animate = function (timeStamp) {
   
   //LEFT
   if (input.isLeftPressed) {
-    // player.position.x -= playerSpeed;    
     player.position.x -= Math.sin(player.rotation.y + Math.PI / 2) * playerSpeed;
     player.position.z -= Math.cos(player.rotation.y + Math.PI / 2) * playerSpeed;
   }
   //RIGHT
   if (input.isRightPressed) {
-    // player.position.x += playerSpeed;
     player.position.x += Math.sin(player.rotation.y + Math.PI / 2) * playerSpeed;
     player.position.z += Math.cos(player.rotation.y + Math.PI / 2) * playerSpeed;
-
-
   }
   //JUMP  
   if (input.isSpacePressed) {
@@ -112,7 +104,6 @@ let animate = function (timeStamp) {
   }
   //FWD 
   if (input.isFwdPressed) {
-    // player.position.z -= (playerSpeed);
     player.position.x -= Math.sin(player.rotation.y) * playerSpeed;
     player.position.z -= Math.cos(player.rotation.y) * playerSpeed;
   }
@@ -123,17 +114,11 @@ let animate = function (timeStamp) {
   }
   //RotLeft
   if (input.isRLPressed) {
-    player.rotation.y += playerSpeed;
-
-    // camera.position.x += Math.sin(player.rotation.y + Math.PI / 2) * playerSpeed;
-    // camera.position.z += -Math.cos(player.rotation.y + Math.PI / 2) * playerSpeed;
+    player.rotation.y += playerSpeed/4;
   }
   //RotRight
   if (input.isRRPressed) {
-    player.rotation.y -= playerSpeed;
-
-    // camera.position.x += Math.sin(player.rotation.y - Math.PI / 2) * playerSpeed;
-    // camera.position.z += -Math.cos(player.rotation.y - Math.PI / 2) * playerSpeed;
+    player.rotation.y -= playerSpeed/4;
   }
 
   //GRAVITY...fix this please
