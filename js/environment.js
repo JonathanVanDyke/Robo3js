@@ -7,6 +7,7 @@ function Environment() {
   let ground = new Physijs.PlaneMesh(groundGeometry, groundMaterial); //MESH POINTS MAT TO GEOMETRY
   ground.rotation.x = -0.5 * Math.PI;
   ground.name = 'ground'
+  ground.receiveShadow = true;
   scene.add(ground); //DROP ELEMENT INTO VIRTUAL ENVIRONMENT
 
 
@@ -44,7 +45,7 @@ function Environment() {
 
 
     env3Block.addEventListener('collision', function (other_object, linear_velocity, angular_velocity) {
-      console.log(other_object)
+      // console.log(other_object)
       // console.log(linear_velocity)
       // console.log(angular_velocity)
       // env3Block.material.wireframe = true
@@ -55,8 +56,5 @@ function Environment() {
     });
 
   }
-
-
-  
 
 }

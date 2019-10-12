@@ -7,12 +7,13 @@ Physijs.scripts.ammo = './lib/ammo.js';
 //RENDERER INPUT, SCENE (virtual environment)/CAMERA 
 // let scene = new THREE.Scene();
 let scene = new Physijs.Scene;
+
+
 // let scene = new Physijs.Scene({ reportsize: 50, fixedTimeStep: 1 / 20 }); //Slow down scene to fix rotation bug
 scene.setGravity(new THREE.Vector3( 0, -9.8, 0));
 let camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
 
-// camera.position.z = 5;
-// camera.position.set(0, 2, 5);
+//MECH
 
 
 // 101
@@ -49,9 +50,6 @@ let mouse = new THREE.Vector2();
 
 
 
-
-
-
 // 07
 //ELEMENT ONE (**LOOK UP MATERIAL OPTIONS**)
 let playerGeometry = new THREE.CubeGeometry(1, 1, 1, 100); //PRIMITIVE SHAPE AND SIZE (set 3rd val to 111 for cat paw)
@@ -63,45 +61,6 @@ player.name = 'player';
 scene.add(player); //DROP ELEMENT INTO VIRTUAL ENVIRONMENT
 camera.position.set(0, 2, 5);
 player.add(camera)
-
-//Try to load a shark they said
-// let loader = new THREE.GLTFLoader();
-
-// loader.load( './assets/low_poly_shark/scene.gltf', function ( gltf ) {
-//   scene.add( scene.gltf );
-// }, undefined, function (error) {
-//   console.log( error );
-// })
-
-// var loader = new THREE.GLTFLoader();
-// loader.load('./assets/low_poly_shark/scene.gltf', function (gltf) {
-//   scene.add( gltf.scene )
-// });
-
-var loader = new THREE.OBJLoader();
-// load a resource
-loader.load(
-  // resource URL
-  'assets/mech.obj',
-  // called when resource is loaded
-  function (object) {
-    
-    scene.add(object);
-
-  },
-  // called when loading is in progresses
-  function (xhr) {
-
-    console.log((xhr.loaded / xhr.total * 100) + '% loaded');
-
-  },
-  // called when loading has errors
-  function (error) {
-
-    console.log('An error happened');
-
-  }
-);
 
 
 // 08
@@ -127,6 +86,23 @@ player.add(light3)
 let lastTimeStamp = 0;
 // player.__dirtyPosition = true;
 // player.__dirtyRotation = true;
+
+
+//file is uploaded async...
+// let children = Object.values(scene.children)
+// debugger
+// let mech;
+// for (let i = 0; i < children.length; i ++) {
+//   // debugger
+//   if (children[i].name === 'mech') {
+//     debugger
+//     mech = children[i]
+//   }
+// }
+
+// debugger
+
+
 let clock = new THREE.Clock();
 let _vector = new THREE.Vector3(0, 0, 0)
 let animate = function (timeStamp) {
