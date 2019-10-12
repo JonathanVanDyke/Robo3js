@@ -99,7 +99,7 @@ player.add(light3)
 let lastTimeStamp = 0;
 // player.__dirtyPosition = true;
 // player.__dirtyRotation = true;
-
+let clock = new THREE.Clock();
 let _vector = new THREE.Vector3(0, 0, 0)
 let animate = function (timeStamp) {
   // player.__dirtyPosition = true;
@@ -108,6 +108,10 @@ let animate = function (timeStamp) {
   player.setAngularFactor(_vector);
   player.setAngularVelocity(_vector);
   player.setLinearVelocity(new THREE.Vector3(0, 0, 0));
+
+  let delta = clock.getDelta(); // seconds
+  let moveDistance = 200 * delta; // 200 pixels per second
+  let rotateAngle = Math.PI / 2 * delta; // pi/2 radians (90 deg) per sec
 
 
   requestAnimationFrame(animate);
@@ -144,40 +148,56 @@ let animate = function (timeStamp) {
   if (input.isSpacePressed) {
     player.__dirtyPosition = true;
     player.__dirtyRotation = true;
-    player.position.y += playerSpeed*2;
+    player.translateOnAxis(new THREE.Vector3(0, -playerSpeed * 100, 0), -rotateAngle)
+
+    // player.position.y += playerSpeed*2;
   }
   //FWD 
+
+
   if (input.isFwdPressed) {
     player.__dirtyPosition = true;
     player.__dirtyRotation = true;
-    player.position.x -= Math.sin(player.rotation.y) * playerSpeed;
-    player.position.z -= Math.cos(player.rotation.y) * playerSpeed;
+
+    player.translateOnAxis(new THREE.Vector3(0, 0, playerSpeed*100), -rotateAngle)
+
+    // player.position.x -= Math.sin(player.rotation.y) * playerSpeed;
+    // player.position.z -= Math.cos(player.rotation.y) * playerSpeed;
   }
   //BACK 
   if (input.isBwdPressed) {
     player.__dirtyPosition = true;
     player.__dirtyRotation = true;
-    player.position.x += Math.sin(player.rotation.y) * playerSpeed;
-    player.position.z += Math.cos(player.rotation.y) * playerSpeed;
+
+    player.translateOnAxis(new THREE.Vector3(0, 0, -playerSpeed * 100), -rotateAngle)
+
+    // player.position.x += Math.sin(player.rotation.y) * playerSpeed;
+    // player.position.z += Math.cos(player.rotation.y) * playerSpeed;
   }
   //RotLeft
   if (input.isRLPressed) {
     // player.rotation.y += playerSpeed/4;
-    player.rotation.y += .1;
+    player.rotateOnAxis(new THREE.Vector3(0, 1, 0), +0.05); 
+    // console.log(player.rotateOnAxis)
     player.__dirtyPosition = true;
     player.__dirtyRotation = true;
   }
   //RotRight
   if (input.isRRPressed) {
 
-    player.rotation.y -= playerSpeed/4;
+    player.rotateOnAxis(new THREE.Vector3(0, 1, 0), -0.05); 
     player.__dirtyPosition = true;
     player.__dirtyRotation = true;
   }
 
+  
+
+
   //GRAVITY...fix this please
-  if (player.position.y >= 1) {
-    player.position.y -= 0.2 * boost;
+  if (player.position.y <= 1) {
+    player.translateOnAxis(new THREE.Vector3(0, 0, 0), -rotateAngle)
+  } else {
+    player.translateOnAxis(new THREE.Vector3(0, playerSpeed * 50, 0), -rotateAngle)
   }
   // camera.lookAt(player.position)
   scene.simulate();
