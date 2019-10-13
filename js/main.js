@@ -52,16 +52,18 @@ let mouse = new THREE.Vector2();
 
 // 07
 //ELEMENT ONE (**LOOK UP MATERIAL OPTIONS**)
-let playerGeometry = new THREE.CubeGeometry(1, 1, 1, 100); //PRIMITIVE SHAPE AND SIZE (set 3rd val to 111 for cat paw)
-let playerMaterial = new THREE.MeshLambertMaterial({ color: 0x22CAC2 }); //COLOR OF MESH
+let playerGeometry = new THREE.CubeGeometry(5, 5, 5, 100); //PRIMITIVE SHAPE AND SIZE (set 3rd val to 111 for cat paw)
+let playerMaterial = new THREE.MeshLambertMaterial({ color: 0x22CAC2, transparent: true, opacity: 0.0 }); //COLOR OF MESH
 // let player = new THREE.Mesh(playerGeometry, playerMaterial); //MESH POINTS MAT TO GEOMETRY
 let player = new Physijs.BoxMesh(playerGeometry, playerMaterial); //MESH POINTS MAT TO GEOMETRY
 player.position.set(0, 1, 0);
 player.name = 'player';
-console.log(player)
+// debugger
 scene.add(player); //DROP ELEMENT INTO VIRTUAL ENVIRONMENT
-camera.position.set(0, 2, 5);
+camera.position.set(0, 8, 10);
+camera.rotation.x = -.2
 player.add(camera)
+
 
 
 // 08

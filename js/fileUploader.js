@@ -58,9 +58,12 @@ loader2.load(
     object.name = 'uploadObject'
     emptyBox = object.children[1];
     mechMesh = object.children[0]
+    // debugger
     player.add(mechMesh);
+    
     console.log(object.children[1])
     // var mesh = new Physijs.ConcaveMesh(object, material);
     scene.add(object.children[0]);
+    
 }
 );
