@@ -1,4 +1,4 @@
-let camera, renderer, scene, player, bullets, input, environment, _vector, clock, lastTimeStamp;
+let camera, renderer, scene, player, bullets, bulletsBlock, input, environment, _vector, clock, lastTimeStamp;
 
 
 function init() {
@@ -18,6 +18,9 @@ function init() {
   //202
   //Bullets
   bullets = new Bullets();
+  // let bulletsBlockGeometry = new THREE.SphereGeometry(1, 1, 1); //PRIMITIVE SHAPE AND SIZE
+  // let bulletsBlockMaterial = new THREE.MeshLambertMaterial({ color: 0xff00C2 }); //COLOR OF MESH
+  // bulletsBlock = new Physijs.BoxMesh(bulletsBlockGeometry, bulletsBlockMaterial); //MESH POINTS MAT TO GEOMETRY
 
   // 101
   //INPUT OBJECT
@@ -165,6 +168,14 @@ let animate = function (timeStamp) {
 
     player.translateOnAxis(new THREE.Vector3(0, 0, playerSpeed*100), -rotateAngle)
 
+
+    // bulletsBlock.setAngularFactor(_vector);
+    // bulletsBlock.setAngularVelocity(_vector);
+    // bulletsBlock.__dirtyPosition = true;
+    // bulletsBlock.__dirtyRotation = true;
+
+    // bulletsBlock.translateOnAxis(new THREE.Vector3(0, 0, playerSpeed * 300), -rotateAngle)
+    
     // player.position.x -= Math.sin(player.rotation.y) * playerSpeed;
     // player.position.z -= Math.cos(player.rotation.y) * playerSpeed;
   }
@@ -196,7 +207,9 @@ let animate = function (timeStamp) {
 
   //bullets?
   if (input.isFirePressed) {
-    bullets.fire();
+    bullets.fire()
+    bulletsBlock.setLinearVelocity(new THREE.Vector3(0, 0, 100))
+
   }
   
 

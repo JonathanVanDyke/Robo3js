@@ -5,7 +5,7 @@ MechLoader.load(
     mechMesh = object.children[0]
     mechMesh.position.set(0, -4, 0);
     mechMesh.rotation.y = Math.PI;
-    debugger
+    // debugger
 
 
     let materials = mechMesh.material
