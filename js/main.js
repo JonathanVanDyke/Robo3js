@@ -1,3 +1,5 @@
+
+
 // 201 
 Physijs.scripts.worker = './lib/physijs_worker.js';
 Physijs.scripts.ammo = './lib/ammo.js';
@@ -15,10 +17,15 @@ let camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHei
 
 //MECH
 
+//202
+//Bullets
+let bullets = new Bullets();
 
 // 101
 //INPUT OBJECT
 let input = new Input();
+
+
 
 // 001
 // Environment
@@ -65,8 +72,6 @@ let playerMaterial = new THREE.MeshLambertMaterial({ color: 0x22CAC2, transparen
 let player = new Physijs.BoxMesh(playerGeometry, playerMaterial); //MESH POINTS MAT TO GEOMETRY
 player.position.set(0, 5, 0);
 player.name = 'player';
-// debugger
-// scene.add(player); //DROP ELEMENT INTO VIRTUAL ENVIRONMENT
 camera.position.set(0, 6, 10);
 camera.rotation.x = -.2
 player.add(camera)
@@ -84,34 +89,11 @@ let light2 = new THREE.AmbientLight(0xFFFFFF, .25, 2);
 light2.position.set(0, 0, 25)
 scene.add(light2)
 
-// //LIGHT PLAYER
-// let light3 = new THREE.PointLight(0xFFFFFF, 2, 2);
-// light3.position.set(0, 0, 25)
-// player.add(light3)
-
 // 09
 //RENDER LOOP
 // 102
 //Normalize animation loop
 let lastTimeStamp = 0;
-// player.__dirtyPosition = true;
-// player.__dirtyRotation = true;
-
-
-//file is uploaded async...
-// let children = Object.values(scene.children)
-// debugger
-// let mech;
-// for (let i = 0; i < children.length; i ++) {
-//   // debugger
-//   if (children[i].name === 'mech') {
-//     debugger
-//     mech = children[i]
-//   }
-// }
-
-// debugger
-
 
 let clock = new THREE.Clock();
 let _vector = new THREE.Vector3(0, 0, 0)
@@ -210,6 +192,10 @@ let animate = function (timeStamp) {
     player.__dirtyRotation = true;
   }
 
+  //bullets?
+  if (input.isFirePressed) {
+    bullets.fire();
+  }
   
 
 

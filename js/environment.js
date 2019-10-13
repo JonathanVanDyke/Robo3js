@@ -10,28 +10,6 @@ function Environment() {
   ground.receiveShadow = true;
   scene.add(ground); //DROP ELEMENT INTO VIRTUAL ENVIRONMENT
 
-
-  // //GROUPING TEST
-  // var geometry = new THREE.BoxBufferGeometry(100, 100, 100);
-  // var material1 = new THREE.MeshBasicMaterial({ color: 0x00ff00 });
-  // var material2 = new THREE.MeshBasicMaterial({ color: 0x0000ff });
-
-  // var cubeA = new THREE.Mesh(geometry, material1);
-  // cubeA.position.set(100, 100, 0);
-
-  // var cubeB = new THREE.Mesh(geometry, material2);
-  // cubeB.position.set(200, 200, 0);
-
-  // //create a group and add the two cubes
-  // //These cubes can now be rotated / scaled etc as a group
-  // var group = new THREE.Group();
-  // group.add(cubeA);
-  // group.add(cubeB);
-
-  // scene.add(group);
-
-
-
   // 07c
   // ELEMENT ONE (**LOOK UP MATERIAL OPTIONS**)
   for (let i = 0; i < 100; i++) {
