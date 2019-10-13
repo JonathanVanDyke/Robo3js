@@ -34,6 +34,11 @@ function init() {
   //INSTANCE OF RENDERER
   renderer = new THREE.WebGLRenderer({ antialias: true });
   renderer.setSize(window.innerWidth, window.innerHeight);
+  renderer.setPixelRatio(window.devicePixelRatio);
+
+  // renderer.gammaFactor = 2.2;
+  // renderer.gammaOutput = true;
+
   renderer.setClearColor("#e5e5e5"); //BACKGROUND COLOR
 
   // 04
