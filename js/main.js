@@ -54,7 +54,11 @@ function init() {
   // 07
   //ELEMENT ONE (**LOOK UP MATERIAL OPTIONS**)
   let playerGeometry = new THREE.CubeGeometry(5, 8, 5, 100); //PRIMITIVE SHAPE AND SIZE (set 3rd val to 111 for cat paw)
-  let playerMaterial = new THREE.MeshLambertMaterial({ color: 0x22CAC2, transparent: true, opacity: .25 }); //COLOR OF MESH
+  let playerMaterial = new THREE.MeshLambertMaterial({ 
+    color: 0x22CAC2, 
+    transparent: true, 
+    opacity: .25 ,
+  }); //COLOR OF MESH
   //ELEMENT ONE (**LOOK UP MATERIAL OPTIONS**)
 
   // //Cat mode
