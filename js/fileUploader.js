@@ -31,34 +31,36 @@
 console.log('outside')
 // console.log(mech)
 
-//CLEANED UP CODE
-var loader = new THREE.OBJLoader();
-// load a resource
-// let mech;
+// //CLEANED UP CODE
+// var loader = new THREE.OBJLoader();
+// // load a resource
+// // let mech;
 
-handleResourceLoaded = (object) => { 
+// handleResourceLoaded = (object) => { 
+//   object.name = 'mech'
+//   // debugger
+//   scene.add(object)
+//   console.log(object)
+// }
 
-  // let loadedPlayerGeometry = new THREE.CubeGeometry(1, 1, 1, 100); //PRIMITIVE SHAPE AND SIZE (set 3rd val to 111 for cat paw)
-  // let loadedPlayerMaterial = new THREE.MeshLambertMaterial({ color: 0x22CAC2 }); //COLOR OF MESH
-  // // let loadedPlayer = new THREE.Mesh(loadedPlayerGeometry, loadedPlayerMaterial); //MESH POINTS MAT TO GEOMETRY
-  // let loadedPlayer = new Physijs.BoxMesh(loadedPlayerGeometry, loadedPlayerMaterial); //MESH POINTS MAT TO GEOMETRY
-  // loadedPlayer.position.set(0, 1, 0);
-  // loadedPlayer.name = 'loadedPlayer';
-  // scene.add(loadedPlayer); //DROP ELEMENT INTO VIRTUAL ENVIRONMENT
-  // camera.position.set(0, 2, 5);
-  // loadedPlayer.add(camera)
+// const loadInProgressNotice = (xhr) => { console.log((xhr.loaded / xhr.total * 100) + '% loaded') }
+
+// const loadErrors = (error) => { console.log('An error happened') }
+
+// loader.load('assets/mech.obj', handleResourceLoaded, loadInProgressNotice, loadErrors);
 
 
-
-  object.name = 'mech'
-  // debugger
-  scene.add(object)
-  console.log(object)
+let loader2 = new THREE.OBJLoader();
+loader2.load(
+  'assets/mech.obj',
+  function (object) {
+    let material = new THREE.MeshLambertMaterial({ color: 0x22CAC2 }); //COLOR OF MESH
+    object.name = 'uploadObject'
+    emptyBox = object.children[1];
+    mechMesh = object.children[0]
+    player.add(mechMesh);
+    console.log(object.children[1])
+    // var mesh = new Physijs.ConcaveMesh(object, material);
+    scene.add(object.children[0]);
 }
-
-const loadInProgressNotice = (xhr) => { console.log((xhr.loaded / xhr.total * 100) + '% loaded') }
-
-const loadErrors = (error) => { console.log('An error happened') }
-
-loader.load('assets/mech.obj', handleResourceLoaded, loadInProgressNotice, loadErrors);
-
+);

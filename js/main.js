@@ -58,6 +58,7 @@ let playerMaterial = new THREE.MeshLambertMaterial({ color: 0x22CAC2 }); //COLOR
 let player = new Physijs.BoxMesh(playerGeometry, playerMaterial); //MESH POINTS MAT TO GEOMETRY
 player.position.set(0, 1, 0);
 player.name = 'player';
+console.log(player)
 scene.add(player); //DROP ELEMENT INTO VIRTUAL ENVIRONMENT
 camera.position.set(0, 2, 5);
 player.add(camera)
