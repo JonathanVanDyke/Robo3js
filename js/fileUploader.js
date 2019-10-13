@@ -50,20 +50,38 @@ console.log('outside')
 // loader.load('assets/mech.obj', handleResourceLoaded, loadInProgressNotice, loadErrors);
 
 
+// let loader2 = new THREE.OBJLoader();
+// loader2.load(
+//   'assets/mech.obj',
+//   function (object) {
+//     let material = new THREE.MeshLambertMaterial({ color: 0x22CAC2 }); //COLOR OF MESH
+//     object.name = 'uploadObject'
+//     emptyBox = object.children[1];
+//     mechMesh = object.children[0]
+//     player.add(mechMesh);
+//     scene.add(player); 
+// }
+// );
+
+//group test
 let loader2 = new THREE.OBJLoader();
 loader2.load(
   'assets/mech.obj',
   function (object) {
-    let material = new THREE.MeshLambertMaterial({ color: 0x22CAC2 }); //COLOR OF MESH
-    object.name = 'uploadObject'
-    emptyBox = object.children[1];
     mechMesh = object.children[0]
-    // debugger
-    player.add(mechMesh);
+    mechMesh.position.set(0, -4, 0);
+    mechMesh.rotation.y = Math.PI;
+    player.position.set(0, 10, 0);
+    player.material.wireframe = true;
+    let group = new THREE.Group();
+    player.add(mechMesh)
+    scene.add(player)
     
-    console.log(object.children[1])
-    // var mesh = new Physijs.ConcaveMesh(object, material);
-    scene.add(object.children[0]);
+
+    // object.name = 'uploadObject'
+    // emptyBox = object.children[1];
     
+    // player.add(mechMesh);
+    // scene.add(player); 
 }
 );

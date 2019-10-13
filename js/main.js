@@ -52,8 +52,8 @@ let mouse = new THREE.Vector2();
 
 // 07
 //ELEMENT ONE (**LOOK UP MATERIAL OPTIONS**)
-let playerGeometry = new THREE.CubeGeometry(5, 5, 5, 100); //PRIMITIVE SHAPE AND SIZE (set 3rd val to 111 for cat paw)
-let playerMaterial = new THREE.MeshLambertMaterial({ color: 0x22CAC2, transparent: true, opacity: 0.0 }); //COLOR OF MESH
+let playerGeometry = new THREE.CubeGeometry(5, 8, 5, 100); //PRIMITIVE SHAPE AND SIZE (set 3rd val to 111 for cat paw)
+let playerMaterial = new THREE.MeshLambertMaterial({ color: 0x22CAC2, transparent: true, opacity: .25 }); //COLOR OF MESH
 //ELEMENT ONE (**LOOK UP MATERIAL OPTIONS**)
 
 // //Cat mode
@@ -63,11 +63,11 @@ let playerMaterial = new THREE.MeshLambertMaterial({ color: 0x22CAC2, transparen
 
 // let player = new THREE.Mesh(playerGeometry, playerMaterial); //MESH POINTS MAT TO GEOMETRY
 let player = new Physijs.BoxMesh(playerGeometry, playerMaterial); //MESH POINTS MAT TO GEOMETRY
-player.position.set(0, 1, 0);
+player.position.set(0, 5, 0);
 player.name = 'player';
 // debugger
-scene.add(player); //DROP ELEMENT INTO VIRTUAL ENVIRONMENT
-camera.position.set(0, 8, 10);
+// scene.add(player); //DROP ELEMENT INTO VIRTUAL ENVIRONMENT
+camera.position.set(0, 6, 10);
 camera.rotation.x = -.2
 player.add(camera)
 
@@ -75,8 +75,8 @@ player.add(camera)
 
 // 08
 //LIGHT ONE
-let light1 = new THREE.PointLight(0xFFFFFF, 2, 100);
-light1.position.set(0, 0, 25)
+let light1 = new THREE.PointLight(0xFFFFFF, 2, 1000);
+light1.position.set(0, 80, 25)
 scene.add(light1)
 
 //LIGHT TWO
@@ -84,10 +84,10 @@ let light2 = new THREE.AmbientLight(0xFFFFFF, .25, 2);
 light2.position.set(0, 0, 25)
 scene.add(light2)
 
-//LIGHT PLAYER
-let light3 = new THREE.PointLight(0xFFFFFF, 2, 2);
-light3.position.set(0, 0, 25)
-player.add(light3)
+// //LIGHT PLAYER
+// let light3 = new THREE.PointLight(0xFFFFFF, 2, 2);
+// light3.position.set(0, 0, 25)
+// player.add(light3)
 
 // 09
 //RENDER LOOP
