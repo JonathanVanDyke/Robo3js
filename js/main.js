@@ -54,6 +54,13 @@ let mouse = new THREE.Vector2();
 //ELEMENT ONE (**LOOK UP MATERIAL OPTIONS**)
 let playerGeometry = new THREE.CubeGeometry(5, 5, 5, 100); //PRIMITIVE SHAPE AND SIZE (set 3rd val to 111 for cat paw)
 let playerMaterial = new THREE.MeshLambertMaterial({ color: 0x22CAC2, transparent: true, opacity: 0.0 }); //COLOR OF MESH
+//ELEMENT ONE (**LOOK UP MATERIAL OPTIONS**)
+
+// //Cat mode
+// let playerGeometry = new THREE.CubeGeometry(1, 2, 111, 100); //PRIMITIVE SHAPE AND SIZE (set 3rd val to 111 for cat paw)
+// let playerMaterial = new THREE.MeshLambertMaterial({ color: 0x22CAC2, transparent: true, opacity: 1.0 }); //COLOR OF MESH
+// //Cat mode
+
 // let player = new THREE.Mesh(playerGeometry, playerMaterial); //MESH POINTS MAT TO GEOMETRY
 let player = new Physijs.BoxMesh(playerGeometry, playerMaterial); //MESH POINTS MAT TO GEOMETRY
 player.position.set(0, 1, 0);
