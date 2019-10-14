@@ -1,4 +1,5 @@
 let camera, sceneHUD, cameraHUD, rotateAngle, renderer, scene, player, bullets, bulletsBlock, input, environment, _vector, clock, lastTimeStamp;
+// const HUD = require('./hud')
 
 
 function init() {
@@ -17,8 +18,8 @@ function init() {
   scene.setGravity(new THREE.Vector3(0, -20, 0));
   {
     const color = 'grey';  // white
-    const near = 10;
-    const far = 100;
+    const near = 90;
+    const far = 150;
     scene.fog = new THREE.Fog(color, near, far);
   }
   scene.background = new THREE.Color('skyblue');
@@ -145,6 +146,12 @@ function createRenderer() {
   
   // 04
   //ADD CANVAS ELEMENT TO DOM
+  pointTally = document.createElement('h1');
+  pointTally.id = 'points'
+  pointTally.style.position = 'absolute';
+  document.body.appendChild(pointTally);
+  pointTally.innerHTML = 'Score: 0'
+
   document.body.appendChild(renderer.domElement);
 }
 
@@ -289,11 +296,11 @@ let animate = function (timeStamp) {
     // animate();
   }
 
-
-
   scene.simulate();
   // renderer.render(sceneHUD, cameraHUD)
   renderer.render(scene, camera);
+
+
 };
 
 init();

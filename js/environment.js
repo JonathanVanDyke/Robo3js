@@ -3,7 +3,7 @@ function Environment() {
 
   const textureLoader = new THREE.TextureLoader();
 
-  const texture = textureLoader.load( 'textures/sharksensei.png' );
+  const texture = textureLoader.load( 'textures/tron1.jpg' );
 
   texture.encoding = THREE.sRGBEncoding;
 
@@ -33,7 +33,7 @@ function Environment() {
     restitution
   );
 
-  let ground = new Physijs.PlaneMesh(groundGeometry, material); //MESH POINTS MAT TO GEOMETRY
+  let ground = new Physijs.PlaneMesh(groundGeometry, materialMap); //MESH POINTS MAT TO GEOMETRY
   ground.rotation.x = -0.5 * Math.PI;
   ground.name = 'ground'
   ground.receiveShadow = true;
@@ -79,6 +79,8 @@ function Environment() {
       // env3Block.material.wireframe = true
       if (other_object.name === 'bullet') {
         player.points += 1;
+        let pointEle = document.getElementById('points')
+        pointEle.innerHTML = `Score: ${player.points}`
         // console.log(player.points)
         // scene.remove(this);
         env3Block.visible = false;
