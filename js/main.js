@@ -213,7 +213,8 @@ let animate = function (timeStamp) {
     player.__dirtyPosition = true;
     player.__dirtyRotation = true;
     player.translateOnAxis(new THREE.Vector3(0, -playerSpeed * 100, 0), -rotateAngle)
-    
+    player.setAngularFactor(_vector);
+    player.setAngularVelocity(_vector);
     // player.position.y += playerSpeed*2;
   }
   //FWD 
