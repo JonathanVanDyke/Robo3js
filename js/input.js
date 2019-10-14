@@ -11,6 +11,8 @@ function Input() {
   self.isRRPressed = false;
   //how do we add gravity?
   self.isSpacePressed = false;
+  //bullets?
+  self.isFirePressed = false;
 
   //Handle key events (setting value according to event listener)
   const handleKeyEvent = (e, isKeyDown) => {
@@ -37,6 +39,9 @@ function Input() {
     } 
     if(e.keyCode === 69) {
       self.isRRPressed = isKeyDown;
+    }
+    if(e.keyCode === 74) {
+      self.isFirePressed = isKeyDown;
     }
   }
 
