@@ -21,6 +21,29 @@ MechLoader.load(
     player.material.wireframe = true;
 
     player.add(mechMesh)
+    player.position.set(0, 4, 0)
     scene.add(player)
 }
 );
+
+// //A huge city w/o colliders or physics 
+// let cityLoader = new THREE.OBJLoader();
+// cityLoader.load(
+//   'assets/City.obj',
+//   function (object) {
+
+//     for (let i = 0; i < object.children.length; i++) {
+//       cityMesh = object.children[i]
+//       if (i % 2 === 0) {
+//         debugger
+//         cityMesh.material.color.set(0xa39f98);
+//       } else {
+//         cityMesh.material.color.set(0xc4b9a7);
+//       }
+
+
+//       cityMesh.position.set(0, 0, 400);
+//       scene.add(cityMesh)
+//     }
+// }
+// );

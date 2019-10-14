@@ -20,7 +20,7 @@ function init() {
     const color = 'grey';  // white
     const near = 90;
     const far = 150;
-    scene.fog = new THREE.Fog(color, near, far);
+    // scene.fog = new THREE.Fog(color, near, far);
   }
   scene.background = new THREE.Color('skyblue');
 
@@ -81,7 +81,7 @@ function createCamera() {
     75, 
     window.innerWidth / window.innerHeight, 
     0.1, 
-    200
+    1000
   );
   // debugger
 
@@ -127,7 +127,7 @@ function createMeshes() {
 
   // let player = new THREE.Mesh(playerGeometry, playerMaterial); //MESH POINTS MAT TO GEOMETRY
   player = new Physijs.BoxMesh(playerGeometry, playerMaterial); //MESH POINTS MAT TO GEOMETRY
-  player.position.set(0, 5, 0);
+  player.position.set(0, 1, 0);
   player.name = 'player';
   player.add(camera)
 }
