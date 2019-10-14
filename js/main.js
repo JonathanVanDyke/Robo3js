@@ -1,7 +1,9 @@
-let camera, renderer, scene, player, bullets, bulletsBlock, input, environment, _vector, clock, lastTimeStamp;
+let camera, sceneHUD, cameraHUD, rotateAngle, renderer, scene, player, bullets, bulletsBlock, input, environment, _vector, clock, lastTimeStamp;
 
 
 function init() {
+
+
   // 201 
   Physijs.scripts.worker = './lib/physijs_worker.js';
   Physijs.scripts.ammo = './lib/ammo.js';
@@ -12,8 +14,20 @@ function init() {
   scene = new Physijs.Scene;
 
   // let scene = new Physijs.Scene({ reportsize: 50, fixedTimeStep: 1 / 20 }); //Slow down scene to fix rotation bug
-  scene.setGravity(new THREE.Vector3(0, -9.8, 0));
-  camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+  scene.setGravity(new THREE.Vector3(0, -20, 0));
+  {
+    const color = 'grey';  // white
+    const near = 10;
+    const far = 100;
+    scene.fog = new THREE.Fog(color, near, far);
+  }
+  scene.background = new THREE.Color('skyblue');
+
+  createCamera();
+  createLights();
+  createMeshes();
+  createRenderer();
+
 
   //202
   //Bullets
@@ -30,20 +44,7 @@ function init() {
   // Environment
   environment = new Environment();
 
-  // 03
-  //INSTANCE OF RENDERER
-  renderer = new THREE.WebGLRenderer({ antialias: true });
-  renderer.setSize(window.innerWidth, window.innerHeight);
-  renderer.setPixelRatio(window.devicePixelRatio);
 
-  // renderer.gammaFactor = 2.2;
-  // renderer.gammaOutput = true;
-
-  renderer.setClearColor("#e5e5e5"); //BACKGROUND COLOR
-
-  // 04
-  //ADD CANVAS ELEMENT TO DOM
-  document.body.appendChild(renderer.domElement);
 
   // 05
   //MAKE WINDOW RESPONSIVE ON RESIZE
@@ -59,13 +60,62 @@ function init() {
   let raycaster = new THREE.Raycaster();
   let mouse = new THREE.Vector2();
 
+
+
+
+
+  // 09
+  //RENDER LOOP
+  // 102
+  //Normalize animation loop
+  lastTimeStamp = 0;
+
+  clock = new THREE.Clock();
+  _vector = new THREE.Vector3(0, 0, 0)
+
+}
+
+function createCamera() {
+  camera = new THREE.PerspectiveCamera(
+    75, 
+    window.innerWidth / window.innerHeight, 
+    0.1, 
+    200
+  );
+  // debugger
+
+  camera.position.set(0, 6, 10);
+  camera.rotation.x = -.2
+}
+
+function createLights() {
+  // 08
+  //LIGHT ONE
+  let light1 = new THREE.DirectionalLight(0xFFFFFF, 2);
+  light1.position.set(0, 20, 25)
+  scene.add(light1)
+
+  //LIGHT TWO
+  let light2 = new THREE.AmbientLight(0xaaaaaa, 1);
+  light2.position.set(0, 0, 25)
+  scene.add(light2)
+  // const ambientLight = new THREE.HemisphereLight(
+  //   0xddeeff,
+  //   0x202020,
+  //   .5,
+  // );
+  // scene.add(ambientLight)
+
+}
+
+function createMeshes() {
   // 07
   //ELEMENT ONE (**LOOK UP MATERIAL OPTIONS**)
-  let playerGeometry = new THREE.CubeGeometry(5, 8, 5, 100); //PRIMITIVE SHAPE AND SIZE (set 3rd val to 111 for cat paw)
-  let playerMaterial = new THREE.MeshLambertMaterial({ 
-    color: 0x22CAC2, 
-    transparent: true, 
-    opacity: .25 ,
+  let playerGeometry = new THREE.CubeGeometry(5, 8, 5, 0); //PRIMITIVE SHAPE AND SIZE (set 3rd val to 111 for cat paw)
+  let playerMaterial = new THREE.MeshLambertMaterial({
+    color: 0x22CAC2,
+    transparent: true,
+    opacity: 0.0,
   }); //COLOR OF MESH
   //ELEMENT ONE (**LOOK UP MATERIAL OPTIONS**)
 
@@ -78,30 +128,24 @@ function init() {
   player = new Physijs.BoxMesh(playerGeometry, playerMaterial); //MESH POINTS MAT TO GEOMETRY
   player.position.set(0, 5, 0);
   player.name = 'player';
-  camera.position.set(0, 6, 10);
-  camera.rotation.x = -.2
   player.add(camera)
+}
 
-  // 08
-  //LIGHT ONE
-  let light1 = new THREE.PointLight(0xFFFFFF, 2, 1000);
-  light1.position.set(0, 80, 25)
-  scene.add(light1)
+function createRenderer() {
+  // 03
+  //INSTANCE OF RENDERER
+  renderer = new THREE.WebGLRenderer({ antialias: true });
+  renderer.setSize(window.innerWidth, window.innerHeight);
+  renderer.setPixelRatio(window.devicePixelRatio);
 
-  //LIGHT TWO
-  let light2 = new THREE.AmbientLight(0xFFFFFF, .25, 2);
-  light2.position.set(0, 0, 25)
-  scene.add(light2)
+  // renderer.gammaFactorw
 
-  // 09
-  //RENDER LOOP
-  // 102
-  //Normalize animation loop
-  lastTimeStamp = 0;
-
-  clock = new THREE.Clock();
-  _vector = new THREE.Vector3(0, 0, 0)
-
+  renderer.physicallyCorrectLights = true;
+  // renderer.setClearColor("#e5e5e5"); //BACKGROUND COLOR
+  
+  // 04
+  //ADD CANVAS ELEMENT TO DOM
+  document.body.appendChild(renderer.domElement);
 }
 
 
@@ -116,8 +160,9 @@ let animate = function (timeStamp) {
   // player.setLinearVelocity(new THREE.Vector3(0, 0, 0));
 
   let delta = clock.getDelta(); // seconds
+  // console.log(clock.getElapsedTime())
   let moveDistance = 200 * delta; // 200 pixels per second
-  let rotateAngle = Math.PI / 2 * delta; // pi/2 radians (90 deg) per sec
+  rotateAngle = Math.PI / 2 * delta; // pi/2 radians (90 deg) per sec
 
 
   requestAnimationFrame(animate);
@@ -161,7 +206,7 @@ let animate = function (timeStamp) {
     player.__dirtyPosition = true;
     player.__dirtyRotation = true;
     player.translateOnAxis(new THREE.Vector3(0, -playerSpeed * 100, 0), -rotateAngle)
-
+    
     // player.position.y += playerSpeed*2;
   }
   //FWD 
@@ -173,13 +218,7 @@ let animate = function (timeStamp) {
 
     player.translateOnAxis(new THREE.Vector3(0, 0, playerSpeed*100), -rotateAngle)
 
-
-    // bulletsBlock.setAngularFactor(_vector);
-    // bulletsBlock.setAngularVelocity(_vector);
-    // bulletsBlock.__dirtyPosition = true;
-    // bulletsBlock.__dirtyRotation = true;
-
-    // bulletsBlock.translateOnAxis(new THREE.Vector3(0, 0, playerSpeed * 300), -rotateAngle)
+    delete3DOBJ('bullet');
     
     // player.position.x -= Math.sin(player.rotation.y) * playerSpeed;
     // player.position.z -= Math.cos(player.rotation.y) * playerSpeed;
@@ -213,8 +252,21 @@ let animate = function (timeStamp) {
   //bullets?
   if (input.isFirePressed) {
     bullets.fire()
-    bulletsBlock.setLinearVelocity(new THREE.Vector3(0, 0, 100))
+    // bulletsRBlock.setLinearVelocity(new THREE.Vector3((player.rotation.y / Math.PI) * 2), 0, 0)
+    // bulletsRBlock.setLinearVelocity(new THREE.Vector3(0, 0, -100))
+    let xCompensator = ((player.rotation.y / Math.PI) * -2) * 100
+    let zCompensator = 100 / (xCompensator + 1)
+    // bulletsLBlock.setLinearVelocity(new THREE.Vector3(xCompensator, 0, zCompensator))
 
+    let wpVector2 = new THREE.Vector3();
+    bulletsLBlock.setLinearVelocity(new THREE.Vector3(-player.getWorldDirection(wpVector2).x * 100, 0, player.getWorldDirection(wpVector2).z * -100))
+    // bulletsLBlock.setLinearVelocity(new THREE.Vector3(0, 0, -100))
+    // console.log(clock.getElapsedTime() - bulletsBlock.createdAt)
+    
+    // if ((clock.getElapsedTime() - bulletsBlock.createdAt) >= 5) {
+    //   debugger
+    //   delete3DOBJ('bullet')
+    // }
   }
   
 
@@ -226,7 +278,21 @@ let animate = function (timeStamp) {
   //   player.translateOnAxis(new THREE.Vector3(0, playerSpeed * 50, 0), -rotateAngle)
   // }
   // camera.lookAt(player.position)
+
+
+  function delete3DOBJ(objName) {
+    let selectedObject = scene.getObjectByName(objName);
+    if (selectedObject) {
+      scene.remove(selectedObject);
+    }
+    
+    // animate();
+  }
+
+
+
   scene.simulate();
+  // renderer.render(sceneHUD, cameraHUD)
   renderer.render(scene, camera);
 };
 

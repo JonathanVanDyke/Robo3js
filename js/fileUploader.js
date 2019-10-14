@@ -16,7 +16,7 @@ MechLoader.load(
         mechMesh.material[i].color.set(0xf5d742);
       }
     }
-    
+    player.points = 0;
     player.position.set(0, 10, 0);
     player.material.wireframe = true;
 
