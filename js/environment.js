@@ -36,25 +36,86 @@ function Environment() {
     env3Block.scale.set(2, 2, 2)
     scene.add(env3Block); //DROP ELEMENT INTO VIRTUAL ENVIRONMENT
 
-    // _vector.set(0, 0, 0);
     env3Block.setAngularFactor(_vector);
     env3Block.setAngularVelocity(_vector);
-    // env3Block.setLinearFactor(_vector);
-    // env3Block.setLinearVelocity(_vector);
-
-
 
     env3Block.addEventListener('collision', function (other_object, linear_velocity, angular_velocity) {
-      // console.log(other_object)
-      // console.log(linear_velocity)
-      // console.log(angular_velocity)
-      // env3Block.material.wireframe = true
-      if (other_object.name === 'player') {
+      if (other_object.name === 'bullet') {
+        player.points += 1;
+        let pointEle = document.getElementById('points')
+        pointEle.innerHTML = `Score: ${player.points}`
         env3Block.visible = false;
       }
-      // env3Block.visible = false; // make any mesh disappear on collision...
     });
+  }
 
+  for (let i = 0; i < 20; i++) {
+    let BIGheight = (Math.random() - 0.5) * 10;
+    let env1BIGBlockGeometry = new THREE.BoxBufferGeometry(1, BIGheight, 1); //PRIMITIVE SHAPE AND SIZE
+    let env1BIGBlockMaterial = new THREE.MeshLambertMaterial({ color: 0x6bff42 }); //COLOR OF MESH
+    let env1BIGBlock = new Physijs.BoxMesh(env1BIGBlockGeometry, env1BIGBlockMaterial, 1, 0); //MESH POINTS MAT TO GEOMETRY
+    env1BIGBlock.position.x = (Math.random() - 0.5) * 400;
+    env1BIGBlock.position.y = 10
+    env1BIGBlock.position.z = (Math.random() - 0.5) * 400;
+    // debugger
+    env1BIGBlock.scale.set(20, 20, 20)
+    env1BIGBlock.name = 'floorBlock'
+    scene.add(env1BIGBlock); //DROP ELEMENT INTO VIRTUAL ENVIRONMENT
+
+    env1BIGBlock.setAngularFactor(_vector);
+    env1BIGBlock.setAngularVelocity(_vector);
+
+    env1BIGBlock.addEventListener('collision', function (other_object, linear_velocity, angular_velocity) {
+      if (other_object.name === 'bullet') {
+        player.points += 1;
+        let pointEle = document.getElementById('points')
+        pointEle.innerHTML = `Score: ${player.points}`
+        env1BIGBlock.visible = false;
+      }
+    });
+  }
+
+  const towerRow = (height, width, zPos) => {
+    for (let i = 0; i < width; i++) {
+      let env4BlockGeometry = new THREE.BoxBufferGeometry(1, 1, 1); //PRIMITIVE SHAPE AND SIZE
+      var env4BlockMaterial = Physijs.createMaterial(new THREE.MeshLambertMaterial({ color: 0xff00C2 }), 0, .1)
+      // let env4BlockMaterial = new THREE.MeshLambertMaterial({ color: 0xff00C2 }); //COLOR OF MESH
+      let env4Block = new Physijs.BoxMesh(env4BlockGeometry, env4BlockMaterial); //MESH POINTS MAT TO GEOMETRY
+  
+      env4Block.position.x = i*2.1 + 6;
+      env4Block.position.y = height;
+      env4Block.position.z = zPos;
+      // debugger
+      env4Block.scale.set(2, 2, 2)
+      env4Block.name = 'floorBlock'
+      scene.add(env4Block); //DROP ELEMENT INTO VIRTUAL ENVIRONMENT
+
+      env4Block.setAngularFactor(_vector);
+      env4Block.setAngularVelocity(_vector);
+
+      env4Block.addEventListener('collision', function (other_object, linear_velocity, angular_velocity) {
+        if (other_object.name === 'bullet') {
+          player.points += 1;
+          let pointEle = document.getElementById('points')
+          pointEle.innerHTML = `Score: ${player.points}`
+          // env4Block.visible = false;
+          scene.remove(this)
+        }
+      });
+    }
+  }
+
+
+  const towerBuilder = (numRows) => {
+    zPos = (Math.random() - 0.5) * 300;
+    width = 1;
+    for (let i = 0; i < numRows; i++) {
+      towerRow((i * 2 + 1), width, zPos)
+    }
+  }
+
+  for (let i = 0; i < 0; i++) {
+    towerBuilder(20)
   }
 
 }

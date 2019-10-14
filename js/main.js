@@ -16,6 +16,144 @@ let camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHei
 //MECH
 
 
+  // let scene = new Physijs.Scene({ reportsize: 50, fixedTimeStep: 1 / 20 }); //Slow down scene to fix rotation bug
+  scene.setGravity(new THREE.Vector3(0, -20, 0));
+  {
+    const color = 'grey';  // white
+    const near = 90;
+    const far = 150;
+    // scene.fog = new THREE.Fog(color, near, far);
+  }
+  scene.background = new THREE.Color('skyblue');
+
+  createCamera();
+  createLights();
+  createMeshes();
+  createRenderer();
+
+
+  //202
+  //Bullets
+  bullets = new Bullets();
+  // let bulletsBlockGeometry = new THREE.SphereGeometry(1, 1, 1); //PRIMITIVE SHAPE AND SIZE
+  // let bulletsBlockMaterial = new THREE.MeshLambertMaterial({ color: 0xff00C2 }); //COLOR OF MESH
+  // bulletsBlock = new Physijs.BoxMesh(bulletsBlockGeometry, bulletsBlockMaterial); //MESH POINTS MAT TO GEOMETRY
+
+  // 101
+  //INPUT OBJECT
+  input = new Input();
+
+  // 001
+  // Environment
+  environment = new Environment();
+
+
+
+  // 05
+  //MAKE WINDOW RESPONSIVE ON RESIZE
+  window.addEventListener('resize', () => {
+    renderer.setSize(window.innerWidth, window.innerHeight);
+    camera.aspect = window.innerWidth / window.innerHeight;
+
+    camera.updateProjectionMatrix();
+  })
+
+  // 06
+  //RAYCASTER => VECTOR 'RAY'... RAY === Array? (like vector array?)
+  let raycaster = new THREE.Raycaster();
+  let mouse = new THREE.Vector2();
+
+
+
+
+
+  // 09
+  //RENDER LOOP
+  // 102
+  //Normalize animation loop
+  lastTimeStamp = 0;
+
+  clock = new THREE.Clock();
+  _vector = new THREE.Vector3(0, 0, 0)
+
+}
+
+function createCamera() {
+  camera = new THREE.PerspectiveCamera(
+    75, 
+    window.innerWidth / window.innerHeight, 
+    0.1, 
+    1000
+  );
+  // debugger
+
+  camera.position.set(0, 6, 10);
+  camera.rotation.x = -.2
+}
+
+function createLights() {
+  // 08
+  //LIGHT ONE
+  let light1 = new THREE.DirectionalLight(0xFFFFFF, 2);
+  light1.position.set(0, 20, 25)
+  scene.add(light1)
+
+  //LIGHT TWO
+  let light2 = new THREE.AmbientLight(0xaaaaaa, 1);
+  light2.position.set(0, 0, 25)
+  scene.add(light2)
+  // const ambientLight = new THREE.HemisphereLight(
+  //   0xddeeff,
+  //   0x202020,
+  //   .5,
+  // );
+  // scene.add(ambientLight)
+
+}
+
+function createMeshes() {
+  // 07
+  //ELEMENT ONE (**LOOK UP MATERIAL OPTIONS**)
+  let playerGeometry = new THREE.CubeGeometry(5, 8, 5, 0); //PRIMITIVE SHAPE AND SIZE (set 3rd val to 111 for cat paw)
+  let playerMaterial = new THREE.MeshLambertMaterial({
+    color: 0x22CAC2,
+    transparent: true,
+    opacity: 0.0,
+  }); //COLOR OF MESH
+  //ELEMENT ONE (**LOOK UP MATERIAL OPTIONS**)
+
+  // //Cat mode
+  // let playerGeometry = new THREE.CubeGeometry(1, 2, 111, 100); //PRIMITIVE SHAPE AND SIZE (set 3rd val to 111 for cat paw)
+  // let playerMaterial = new THREE.MeshLambertMaterial({ color: 0x22CAC2, transparent: true, opacity: 1.0 }); //COLOR OF MESH
+  // //Cat mode
+
+  // let player = new THREE.Mesh(playerGeometry, playerMaterial); //MESH POINTS MAT TO GEOMETRY
+  player = new Physijs.BoxMesh(playerGeometry, playerMaterial); //MESH POINTS MAT TO GEOMETRY
+  player.position.set(0, 1, 0);
+  player.name = 'player';
+  player.add(camera)
+}
+
+function createRenderer() {
+  // 03
+  //INSTANCE OF RENDERER
+  renderer = new THREE.WebGLRenderer({ antialias: true });
+  renderer.setSize(window.innerWidth, window.innerHeight);
+  renderer.setPixelRatio(window.devicePixelRatio);
+
+  // renderer.gammaFactorw
+
+  renderer.physicallyCorrectLights = true;
+  // renderer.setClearColor("#e5e5e5"); //BACKGROUND COLOR
+  
+  // 04
+  //ADD CANVAS ELEMENT TO DOM
+  pointTally = document.createElement('h1');
+  pointTally.id = 'points'
+  pointTally.style.position = 'absolute';
+  document.body.appendChild(pointTally);
+  pointTally.innerHTML = 'Score: 0'
+
 // 101
 //INPUT OBJECT
 let input = new Input();
@@ -169,6 +307,9 @@ let animate = function (timeStamp) {
     player.__dirtyPosition = true;
     player.__dirtyRotation = true;
     player.translateOnAxis(new THREE.Vector3(0, -playerSpeed * 100, 0), -rotateAngle)
+
+    player.setAngularFactor(_vector);
+    player.setAngularVelocity(_vector);
 
     // player.position.y += playerSpeed*2;
   }
